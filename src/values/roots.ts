@@ -1,0 +1,25 @@
+import { NS } from './notation-symbols';
+
+export const roots = [
+    `A${NS.FLAT}`,
+    `A`,
+    `A${NS.SHARP}`,
+    `B${NS.FLAT}`,
+    `B`,
+    `B${NS.SHARP}`,
+    `C${NS.FLAT}`,
+    `C`,
+    `C${NS.SHARP}`,
+    `D${NS.FLAT}`,
+    `D`,
+    `D${NS.SHARP}`,
+    `E${NS.FLAT}`,
+    `E`,
+    `E${NS.SHARP}`,
+    `F${NS.FLAT}`,
+    `F`,
+    `F${NS.SHARP}`,
+    `G${NS.FLAT}`,
+    `G`,
+    `G${NS.SHARP}`,
+];

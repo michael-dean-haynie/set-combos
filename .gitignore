@@ -1,0 +1,9 @@
+# ide 
+.idea/
+
+# build
+build/
+
+# package manager
+node_modules/
+
