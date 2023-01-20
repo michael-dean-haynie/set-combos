@@ -1,7 +1,7 @@
 {
-  "name": "dim-perm",
+  "name": "set-combos",
   "version": "1.0.0",
-  "description": "Dimensional Permutations",
+  "description": "Generate combinations of different sets",
   "main": "build/index.js",
   "scripts": {
     "build": "npx tsc",

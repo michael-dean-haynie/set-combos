@@ -1,18 +1,55 @@
-import { roots } from './values/roots'
-import { qualities } from './values/qualities'
-import {CompositeDimension, SimpleDimension} from './models/dimension';
-import {ConcatAddCF, ConcatReplaceCF} from "./models/composer-func";
+import { types } from "./values/types";
+import {ninthQualities, seventhQualities, triadQualities} from "./values/qualities";
+import { roots } from "./values/roots";
+import { DSet } from "./models/d-set";
+import {ComboGenerator} from "./services/combo-generator";
+import {activities} from "./values/activities";
+import {ComboPresenter} from "./services/combo-presenter";
+import {Combo} from "./models/combo";
 
-const rootsDim = new SimpleDimension('root', roots);
+const chordRootsSet = new DSet('chord-root', roots);
 
-const qualitiesDim = new SimpleDimension('quality', qualities);
+const chordTypesSet = new DSet('chord-type', types);
 
-const chordsDim = new CompositeDimension(
-    'chord',
-    rootsDim,
-    qualitiesDim,
-    // ConcatAddCF
-    ConcatReplaceCF
-)
+const triadQualitiesSet = new DSet('triad-quality', triadQualities);
+triadQualitiesSet.context = { setName: 'chord-type', value: 'triad'};
 
-console.table(chordsDim.permutate());
+const seventhQualitiesSet = new DSet('seventh-quality', seventhQualities);
+seventhQualitiesSet.context = { setName: 'chord-type', value: '7th'};
+
+const ninthQualitiesSet = new DSet('ninth-quality', ninthQualities);
+ninthQualitiesSet.context = { setName: 'chord-type', value: '9th'};
+
+const activitiesSet = new DSet('activity', activities, undefined, true);
+const leftHandActivitiesSet = new DSet(
+    'left-hand-activity',
+    [],
+    undefined,
+    false,
+    activitiesSet
+);
+const rightHandActivitiesSet = new DSet(
+    'right-hand-activity',
+    [],
+    undefined,
+    false,
+    activitiesSet
+);
+
+const generator = new ComboGenerator();
+generator.registerSet(chordRootsSet);
+generator.registerSet(chordTypesSet);
+generator.registerSet(triadQualitiesSet);
+// generator.registerSet(seventhQualitiesSet);
+// generator.registerSet(ninthQualitiesSet);
+generator.registerSet(leftHandActivitiesSet);
+generator.registerSet(rightHandActivitiesSet);
+
+console.table(shuffle(generator.generateCombos().map(ComboPresenter.polishCombo)));
+
+function shuffle(unshuffled: Combo[]) {
+    return unshuffled
+        .map(value => ({ value, sort: Math.random() }))
+        .sort((a, b) => a.sort - b.sort)
+        .map(({ value }) => value);
+}
