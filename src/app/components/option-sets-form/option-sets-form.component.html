@@ -1,0 +1,8 @@
+<button (click)="addOptionSet()">New Set</button>
+<form [formGroup]="formGroup">
+  <div formArrayName="optionSets">
+    <div *ngFor="let optionSet of optionSets.controls; let i=index">
+      <app-option-set-form [optionSet]="optionSet"></app-option-set-form>
+    </div>
+  </div>
+</form>
