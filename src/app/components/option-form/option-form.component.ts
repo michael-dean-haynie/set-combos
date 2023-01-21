@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {OptionFG} from "../../types/option-sets-form-types";
 import {FormControl, FormGroup} from "@angular/forms";
 
@@ -9,6 +9,11 @@ import {FormControl, FormGroup} from "@angular/forms";
 })
 export class OptionFormComponent {
   @Input() option: OptionFG = OptionFormComponent.createOptionFormGroup();
+  @Output() remove = new EventEmitter<void>();
+
+  removeOption(): void {
+    this.remove.emit();
+  }
 
   static createOptionFormGroup(): OptionFG {
     return new FormGroup({

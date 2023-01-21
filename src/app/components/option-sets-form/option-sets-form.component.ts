@@ -20,6 +20,10 @@ export class OptionSetsFormComponent {
     this.optionSets.push(OptionSetFormComponent.createOptionSetFormGroup());
   }
 
+  removeOptionSet(index: number): void {
+    this.optionSets.removeAt(index);
+  }
+
   get optionSets(): FormArray<OptionSetFG>{
     return this.formGroup.get('optionSets') as FormArray<OptionSetFG>;
   }

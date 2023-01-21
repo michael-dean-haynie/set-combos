@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {OptionFG, OptionSetFG} from "../../types/option-sets-form-types";
 import {FormArray, FormControl, FormGroup} from "@angular/forms";
 import {OptionFormComponent} from "../option-form/option-form.component";
@@ -10,6 +10,7 @@ import {OptionFormComponent} from "../option-form/option-form.component";
 })
 export class OptionSetFormComponent {
   @Input() optionSet: OptionSetFG = OptionSetFormComponent.createOptionSetFormGroup();
+  @Output() remove = new EventEmitter<void>()
 
   get options(): FormArray<OptionFG> {
     return this.optionSet.controls.options as FormArray<OptionFG>;
@@ -19,6 +20,14 @@ export class OptionSetFormComponent {
     this.optionSet.controls.options.push(
       OptionFormComponent.createOptionFormGroup()
     );
+  }
+
+  removeOption(index: number): void {
+    this.options.removeAt(index);
+  }
+
+  removeOptionSet(): void {
+    this.remove.emit();
   }
 
   static createOptionSetFormGroup(): OptionSetFG {
