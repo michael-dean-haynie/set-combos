@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import {FormArray, FormControl, FormGroup} from '@angular/forms';
 import {OptionSetFG} from "../../types/option-sets-form-types";
 import {OptionSetFormComponent} from "../option-set-form/option-set-form.component";
@@ -15,6 +15,15 @@ export class OptionSetsFormComponent {
   }>({
     optionSets: new FormArray<OptionSetFG>([])
   })
+
+  @Output() valueChanges = new EventEmitter();
+
+  constructor() {
+    this.formGroup.valueChanges.subscribe( value => {
+      console.log(value);
+      this.valueChanges.emit(value);
+    });
+  }
 
   addOptionSet(): void {
     this.optionSets.push(OptionSetFormComponent.createOptionSetFormGroup());

@@ -1,10 +1,2 @@
-<!--<router-outlet></router-outlet>-->
-<!--<form [formGroup]="optionSet">-->
-<!--  <input type="text" formControlName="name">-->
-<!--  <div formArrayName="options">-->
-<!--    <div *ngFor="let option of options.controls; let i=index">-->
-<!--      <input type="text" [formControlName]="i">-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</form>-->
-<app-option-sets-form></app-option-sets-form>
+<app-option-sets-form (valueChanges)="handleFormChanges($event)"></app-option-sets-form>
+<app-combos-table [model]="model"></app-combos-table>

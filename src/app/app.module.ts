@@ -7,13 +7,15 @@ import { AppComponent } from './app.component';
 import { OptionSetsFormComponent } from './components/option-sets-form/option-sets-form.component';
 import { OptionSetFormComponent } from './components/option-set-form/option-set-form.component';
 import { OptionFormComponent } from './components/option-form/option-form.component';
+import { CombosTableComponent } from './components/combos-table/combos-table.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     OptionSetsFormComponent,
     OptionSetFormComponent,
-    OptionFormComponent
+    OptionFormComponent,
+    CombosTableComponent
   ],
   imports: [
     BrowserModule,

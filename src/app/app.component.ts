@@ -19,6 +19,10 @@ export class AppComponent implements OnInit {
     ])
   });
 
+  model = {
+    optionSets: []
+  }
+
   constructor() {
   }
 
@@ -27,5 +31,9 @@ export class AppComponent implements OnInit {
 
   get options(): FormArray {
     return this.optionSet.get('options') as FormArray;
+  }
+
+  handleFormChanges(changes: any): void {
+    this.model = changes;
   }
 }
