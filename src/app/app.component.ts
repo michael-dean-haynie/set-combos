@@ -1,5 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormArray, FormControl, FormGroup} from '@angular/forms';
+import {ComboService} from "./services/combo.service";
+import {DataModel} from "./models/data.model";
+import {DataModelService} from "./services/data-model.service";
 
 @Component({
   selector: 'app-root',
@@ -19,12 +22,11 @@ export class AppComponent implements OnInit {
     ])
   });
 
-  model = {
-    optionSets: []
-  }
+  dataModel: DataModel|undefined;
 
-  constructor() {
-  }
+  constructor(
+    private dataModelService: DataModelService
+  ) {}
 
   ngOnInit(): void {
   }
@@ -34,6 +36,6 @@ export class AppComponent implements OnInit {
   }
 
   handleFormChanges(changes: any): void {
-    this.model = changes;
+    this.dataModel = this.dataModelService.createDataModel(changes);
   }
 }

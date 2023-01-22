@@ -1,10 +1,16 @@
-<table *ngIf="model?.optionSets">
+<table *ngIf="dataModel?.optionSets">
   <thead>
     <tr>
-      <th *ngFor="let optionSet of model.optionSets">{{optionSet.name}}</th>
+      <th *ngFor="let setName of setNames">
+        {{setName}}
+      </th>
     </tr>
   </thead>
   <tbody>
-
+    <tr *ngFor="let combo of combos">
+      <td *ngFor="let setName of setNames">
+        {{combo[setName]}}
+      </td>
+    </tr>
   </tbody>
 </table>
