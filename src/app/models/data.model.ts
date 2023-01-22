@@ -4,6 +4,7 @@ export interface DataModel {
 
 export interface OptionSet {
   name: string,
+  enabled: boolean,
   options: Option[]
 }
 

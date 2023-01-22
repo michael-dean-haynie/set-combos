@@ -33,6 +33,7 @@ export class OptionSetFormComponent {
   static createOptionSetFormGroup(): OptionSetFG {
     return new FormGroup({
       name: new FormControl('set name'),
+      enabled: new FormControl(true),
       options: new FormArray([
         OptionFormComponent.createOptionFormGroup()
       ])

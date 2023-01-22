@@ -2,6 +2,7 @@
   <input type="text" formControlName="name">
   <button (click)="addOption()" type="button">New Option</button>
   <button (click)="removeOptionSet()" type="button">Delete</button>
+  <input type="checkbox" formControlName="enabled">
   <div formArrayName="options">
     <div *ngFor="let option of options.controls; let i=index">
       <app-option-form [option]="option" (remove)="removeOption(i)"></app-option-form>

@@ -15,10 +15,12 @@ export class ComboService {
 
     combos.push({});
     for (const optionSet of dataModel.optionSets) {
+      if (!optionSet.enabled) { continue; }
       for (let i = combos.length - 1; i >= 0; i--) {
         const exCombo = combos[i];
         const newCombos = [] as Combo[];
         for (const option of optionSet.options) {
+          if (!option.enabled) { continue; }
           newCombos.push({ ...exCombo, ...{ [optionSet.name]: option.name }});
         }
         combos.splice(i, 1, ...newCombos);
@@ -26,5 +28,4 @@ export class ComboService {
     }
     return combos;
   }
-
 }
