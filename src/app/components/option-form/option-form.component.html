@@ -1,5 +1,9 @@
-<form [formGroup]="option">
-  <input type="text" formControlName="name">
-  <button (click)="removeOption()" type="button">Delete</button>
-  <input type="checkbox" formControlName="enabled">
-</form>
+<ng-container [formGroup]="option">
+  <mat-form-field>
+    <input matInput type="text" formControlName="name">
+  </mat-form-field>
+  <button mat-mini-fab color="warn" (click)="removeOption()" type="button">
+    <mat-icon>delete</mat-icon>
+  </button>
+  <mat-slide-toggle color="accent" formControlName="enabled"></mat-slide-toggle>
+</ng-container>

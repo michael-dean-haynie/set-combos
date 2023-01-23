@@ -1,11 +1,22 @@
-<form [formGroup]="optionSet">
-  <input type="text" formControlName="name">
-  <button (click)="addOption()" type="button">New Option</button>
-  <button (click)="removeOptionSet()" type="button">Delete</button>
-  <input type="checkbox" formControlName="enabled">
-  <div formArrayName="options">
-    <div *ngFor="let option of options.controls; let i=index">
-      <app-option-form [option]="option" (remove)="removeOption(i)"></app-option-form>
-    </div>
-  </div>
-</form>
+<mat-card>
+  <ng-container [formGroup]="optionSet">
+    <mat-card-header>
+      <mat-form-field>
+        <mat-label>Set Name</mat-label>
+        <input matInput type="text" formControlName="name">
+      </mat-form-field>
+      <button mat-mini-fab color="warn" (click)="removeOptionSet()" type="button">
+        <mat-icon>delete</mat-icon>
+      </button>
+      <mat-slide-toggle color="accent" formControlName="enabled"></mat-slide-toggle>
+    </mat-card-header>
+    <mat-card-content>
+      <ng-container formArrayName="options">
+        <ng-container *ngFor="let option of options.controls; let i=index">
+          <app-option-form [option]="option" (remove)="removeOption(i)"></app-option-form>
+        </ng-container>
+        <button mat-raised-button color="primary" (click)="addOption()" type="button">New Option</button>
+      </ng-container>
+    </mat-card-content>
+  </ng-container>
+</mat-card>

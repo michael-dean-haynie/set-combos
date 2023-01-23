@@ -8,6 +8,14 @@ import { OptionSetsFormComponent } from './components/option-sets-form/option-se
 import { OptionSetFormComponent } from './components/option-set-form/option-set-form.component';
 import { OptionFormComponent } from './components/option-form/option-form.component';
 import { CombosTableComponent } from './components/combos-table/combos-table.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import {MatCardModule} from '@angular/material/card';
+import {MatButtonModule} from '@angular/material/button';
+import {MatInputModule} from '@angular/material/input';
+import {MatIconModule} from '@angular/material/icon';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+
 
 @NgModule({
   declarations: [
@@ -20,8 +28,15 @@ import { CombosTableComponent } from './components/combos-table/combos-table.com
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule
-  ],
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatCardModule,
+    MatButtonModule,
+    MatInputModule,
+    MatIconModule,
+    MatSlideToggleModule
+
+],
   providers: [],
   bootstrap: [AppComponent]
 })

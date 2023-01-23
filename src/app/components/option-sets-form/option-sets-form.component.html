@@ -1,8 +1,12 @@
-<button (click)="addOptionSet()" type="button">New Set</button>
-<form [formGroup]="formGroup">
-  <div formArrayName="optionSets">
-    <div *ngFor="let optionSet of optionSets.controls; let i=index">
+<form [formGroup]="formGroup" class="option-set-container">
+  <ng-container formArrayName="optionSets">
+    <ng-container *ngFor="let optionSet of optionSets.controls; let i=index">
       <app-option-set-form [optionSet]="optionSet" (remove)="removeOptionSet(i)"></app-option-set-form>
-    </div>
-  </div>
+    </ng-container>
+    <mat-card>
+      <mat-card-content>
+        <button mat-raised-button color="primary" (click)="addOptionSet()" type="button">New Set</button>
+      </mat-card-content>
+    </mat-card>
+  </ng-container>
 </form>

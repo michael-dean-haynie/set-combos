@@ -23,7 +23,9 @@ export class ComboService {
           if (!option.enabled) { continue; }
           newCombos.push({ ...exCombo, ...{ [optionSet.name]: option.name }});
         }
-        combos.splice(i, 1, ...newCombos);
+        if(newCombos.length) {
+          combos.splice(i, 1, ...newCombos);
+        }
       }
     }
     return combos;

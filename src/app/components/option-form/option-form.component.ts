@@ -17,7 +17,7 @@ export class OptionFormComponent {
 
   static createOptionFormGroup(): OptionFG {
     return new FormGroup({
-      name: new FormControl('option name'),
+      name: new FormControl('option name ' + Math.random().toString().substr(2, 5)),
       enabled: new FormControl(true)
     })
   }

@@ -32,7 +32,7 @@ export class OptionSetFormComponent {
 
   static createOptionSetFormGroup(): OptionSetFG {
     return new FormGroup({
-      name: new FormControl('set name'),
+      name: new FormControl('set name ' + Math.random().toString().substr(2, 5)),
       enabled: new FormControl(true),
       options: new FormArray([
         OptionFormComponent.createOptionFormGroup()
