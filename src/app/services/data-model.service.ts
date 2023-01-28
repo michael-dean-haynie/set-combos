@@ -22,9 +22,11 @@ export class DataModelService {
 
   private createOptionSet(formValue: any): OptionSet {
     return {
+      id: formValue.id,
       name: formValue.name,
       enabled: formValue.enabled,
       isAbstract: formValue.isAbstract,
+      extensionOf: formValue.extensionOf,
       options: formValue.options.map(this.createOption, this)
     };
   }

@@ -1,35 +1,59 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {OptionFG, OptionSetFG, OptionSetsFG} from "../../types/option-sets-form-types";
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {DDOption, OptionFG, OptionSetFG, OptionSetsFG} from "../../types/option-sets-form-types";
 import {FormArray, FormControl, FormGroup} from "@angular/forms";
 import {OptionFormComponent} from "../option-form/option-form.component";
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'app-option-set-form',
   templateUrl: './option-set-form.component.html',
   styleUrls: ['./option-set-form.component.scss']
 })
-export class OptionSetFormComponent {
+export class OptionSetFormComponent implements OnInit {
   @Input() optionSet: OptionSetFG = OptionSetFormComponent.createOptionSetFormGroup();
   @Output() remove = new EventEmitter<void>()
+
+  extendableSets: DDOption[] = [{ formValue: null, displayValue: 'None'}];
 
   get options(): FormArray<OptionFG> {
     return this.optionSet.controls.options as FormArray<OptionFG>;
   }
 
-  get extendableSets(): string[] {
+  ngOnInit(): void {
     const parent = this.optionSet.parent as FormArray<OptionSetFG>;
-    const results: string[] = ['None'];
+    parent.valueChanges.subscribe(() => {
+      this.extendableSets = this.getLatestExtendableSets();
+    });
+  }
+
+  private getLatestExtendableSets(): DDOption[] {
+    console.log('inside getLatestExtendableSets');
+    const parent = this.optionSet.parent as FormArray<OptionSetFG>;
+    const results: DDOption[] = [{ formValue: null, displayValue: 'None'}];
     for (const osfg of parent.controls) {
-      const val = osfg?.controls?.name?.value;
       // shouldn't be able to extend itself
-      const sameSet = val === this.optionSet.controls.name.value;
+      const sameSet = osfg.controls.id.value === this.optionSet.controls.id.value;
       // shouldn't be able to create circular extensions
-      const recFunc = (osfg: OptionSetFG) => {
-        // TODO: need to create a form control for this to check.
+      const isCircular = (childOsfg: OptionSetFG): boolean => {
+        console.log(`Set ${this.optionSet.controls.name.value} is extension of ${this.getSetById(this.optionSet.controls.extensionOf.value)?.controls.name.value || null}`);
+        // console.log('inside isCircular');
+        if (!childOsfg.controls.extensionOf.value) { return false; }
+        // console.log('child extensionOf was not falsy ... continuing ...');
+        if (childOsfg.controls.extensionOf.value === this.optionSet.controls.id.value) {
+          return true;
+        }
+        // console.log('child extensionOf did not equal this.optionSet id ...  continuing ...');
+        const extendedSet = parent.controls.find(parentOsfg => {
+          return parentOsfg.controls.id.value === childOsfg.controls.extensionOf.value;
+        });
+        if (!extendedSet){ return false; }
+
+        return isCircular(extendedSet);
       };
-      // const extensionIsCircular =
-      if (val && !sameSet) {
-        results.push(val);
+      // const isCircular = (childOsfg: OptionSetFG) => { return false; };
+      const name = osfg?.controls?.name?.value;
+      if (name && !sameSet && !isCircular(osfg)) {
+        results.push({ formValue: osfg.controls.id.value, displayValue: name });
       }
     }
     return results;
@@ -51,13 +75,26 @@ export class OptionSetFormComponent {
 
   static createOptionSetFormGroup(): OptionSetFG {
     return new FormGroup({
+      id: new FormControl(uuidv4()),
       name: new FormControl('set name ' + Math.random().toString().substr(2, 5)),
       enabled: new FormControl(true),
       isAbstract: new FormControl(false),
+      extensionOf: new FormControl(),
       options: new FormArray([
         OptionFormComponent.createOptionFormGroup()
       ])
     })
   }
 
+  // TODO: REMOVE
+  private getSetById(id: string|null): OptionSetFG|null {
+    if (id === null) { return null; }
+    const parent = this.optionSet.parent as FormArray<OptionSetFG>;
+    const result = parent.controls.find(os => os.controls.id.value === id);
+    if (!result) {
+      console.log('getSetById could not find set with id: ' + id);
+      return null;
+    }
+    return result;
+  }
 }

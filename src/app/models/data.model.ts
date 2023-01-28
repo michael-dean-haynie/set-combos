@@ -3,9 +3,11 @@ export interface DataModel {
 }
 
 export interface OptionSet {
+  id: string,
   name: string,
   enabled: boolean,
   isAbstract: boolean,
+  extensionOf: string,
   options: Option[]
 }
 

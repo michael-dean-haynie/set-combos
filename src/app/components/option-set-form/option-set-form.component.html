@@ -15,9 +15,9 @@
       <div>
         <mat-form-field appearance="fill">
           <mat-label>This Set Extends</mat-label>
-          <mat-select>
-            <mat-option *ngFor="let extSet of extendableSets" [value]="extSet">
-              {{extSet}}
+          <mat-select formControlName="extensionOf">
+            <mat-option *ngFor="let extSet of extendableSets" [value]="extSet.formValue">
+              {{extSet.displayValue}}
             </mat-option>
           </mat-select>
         </mat-form-field>

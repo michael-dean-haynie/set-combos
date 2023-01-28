@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {DataModel} from "../models/data.model";
+import {DataModel, Option, OptionSet} from "../models/data.model";
 import {Combo} from "../models/combo.model";
 
 @Injectable({
@@ -20,7 +20,7 @@ export class ComboService {
       for (let i = combos.length - 1; i >= 0; i--) {
         const exCombo = combos[i];
         const newCombos = [] as Combo[];
-        for (const option of optionSet.options) {
+        for (const option of this.getExtendedSetOptions(optionSet, dataModel.optionSets)) {
           if (!option.enabled) { continue; }
           newCombos.push({ ...exCombo, ...{ [optionSet.name]: option.name }});
         }
@@ -31,4 +31,17 @@ export class ComboService {
     }
     return combos;
   }
+
+  private getExtendedSetOptions(set: OptionSet, allSets: OptionSet[]): Option[]{
+    if(!set.extensionOf){
+      return set.options;
+    }
+    const parent = allSets.find(st => st.id === set.extensionOf);
+    if (!parent) {
+      throw 'aye man something innt rite';
+    }
+    const inheritedOptions = this.getExtendedSetOptions(parent, allSets);
+    return [ ...parent.options, ...set.options ];
+  }
+
 }
