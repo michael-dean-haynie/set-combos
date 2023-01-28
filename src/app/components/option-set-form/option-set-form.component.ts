@@ -14,6 +14,7 @@ export class OptionSetFormComponent implements OnInit {
   @Output() remove = new EventEmitter<void>()
 
   extendableSets: DDOption[] = [{ formValue: null, displayValue: 'None'}];
+  removable = true;
 
   get options(): FormArray<OptionFG> {
     return this.optionSet.controls.options as FormArray<OptionFG>;
@@ -23,40 +24,8 @@ export class OptionSetFormComponent implements OnInit {
     const parent = this.optionSet.parent as FormArray<OptionSetFG>;
     parent.valueChanges.subscribe(() => {
       this.extendableSets = this.getLatestExtendableSets();
+      this.removable = this.isRemovable();
     });
-  }
-
-  private getLatestExtendableSets(): DDOption[] {
-    console.log('inside getLatestExtendableSets');
-    const parent = this.optionSet.parent as FormArray<OptionSetFG>;
-    const results: DDOption[] = [{ formValue: null, displayValue: 'None'}];
-    for (const osfg of parent.controls) {
-      // shouldn't be able to extend itself
-      const sameSet = osfg.controls.id.value === this.optionSet.controls.id.value;
-      // shouldn't be able to create circular extensions
-      const isCircular = (childOsfg: OptionSetFG): boolean => {
-        console.log(`Set ${this.optionSet.controls.name.value} is extension of ${this.getSetById(this.optionSet.controls.extensionOf.value)?.controls.name.value || null}`);
-        // console.log('inside isCircular');
-        if (!childOsfg.controls.extensionOf.value) { return false; }
-        // console.log('child extensionOf was not falsy ... continuing ...');
-        if (childOsfg.controls.extensionOf.value === this.optionSet.controls.id.value) {
-          return true;
-        }
-        // console.log('child extensionOf did not equal this.optionSet id ...  continuing ...');
-        const extendedSet = parent.controls.find(parentOsfg => {
-          return parentOsfg.controls.id.value === childOsfg.controls.extensionOf.value;
-        });
-        if (!extendedSet){ return false; }
-
-        return isCircular(extendedSet);
-      };
-      // const isCircular = (childOsfg: OptionSetFG) => { return false; };
-      const name = osfg?.controls?.name?.value;
-      if (name && !sameSet && !isCircular(osfg)) {
-        results.push({ formValue: osfg.controls.id.value, displayValue: name });
-      }
-    }
-    return results;
   }
 
   addOption(): void {
@@ -86,15 +55,41 @@ export class OptionSetFormComponent implements OnInit {
     })
   }
 
-  // TODO: REMOVE
-  private getSetById(id: string|null): OptionSetFG|null {
-    if (id === null) { return null; }
+  private getLatestExtendableSets(): DDOption[] {
     const parent = this.optionSet.parent as FormArray<OptionSetFG>;
-    const result = parent.controls.find(os => os.controls.id.value === id);
-    if (!result) {
-      console.log('getSetById could not find set with id: ' + id);
-      return null;
+    const results: DDOption[] = [{ formValue: null, displayValue: 'None'}];
+    for (const osfg of parent.controls) {
+      // shouldn't be able to extend itself
+      const sameSet = osfg.controls.id.value === this.optionSet.controls.id.value;
+      // shouldn't be able to create circular extensions
+      const isCircular = (childOsfg: OptionSetFG): boolean => {
+        if (!childOsfg.controls.extensionOf.value) { return false; }
+        if (childOsfg.controls.extensionOf.value === this.optionSet.controls.id.value) {
+          return true;
+        }
+        const extendedSet = parent.controls.find(parentOsfg => {
+          return parentOsfg.controls.id.value === childOsfg.controls.extensionOf.value;
+        });
+        if (!extendedSet){ return false; }
+
+        return isCircular(extendedSet);
+      };
+      const name = osfg?.controls?.name?.value;
+      if (name && !sameSet && !isCircular(osfg)) {
+        results.push({ formValue: osfg.controls.id.value, displayValue: name });
+      }
     }
-    return result;
+    return results;
+  }
+
+  // check if any other sets extend this one
+  private isRemovable(): boolean {
+    const parent = this.optionSet.parent as FormArray<OptionSetFG>;
+    for (const osfg of parent.controls) {
+      if (osfg.controls.extensionOf.value === this.optionSet.controls.id.value) {
+        return false;
+      }
+    }
+    return true;
   }
 }
