@@ -94,6 +94,26 @@ export class OptionSetFormComponent implements OnInit {
         continue;
       }
 
+      // shouldn't be able to create circular scope limits
+      const isCircular = (childOsfg: OptionSetFG): boolean => {
+        if (!childOsfg.controls.scopeLimiter.value) { return false; }
+        const optIdsInSet = this.optionSet.controls.options.controls.map(opt => opt.controls.id.value);
+        if (optIdsInSet.includes(childOsfg.controls.scopeLimiter.value)) {
+          return true;
+        }
+        const limitingSet = parent.controls.find(parentOsfg => {
+          const optIdsInParentSet = parentOsfg.controls.options.controls.map(opt => opt.controls.id.value);
+          return optIdsInParentSet.includes(childOsfg.controls.scopeLimiter.value || '');
+        });
+        if (!limitingSet){ return false; }
+
+        return isCircular(limitingSet);
+      };
+
+      if (isCircular(osfg)) {
+        continue;
+      }
+
       const ddOptions: DDOption[] = [];
       for (const setOpt of osfg.controls.options.controls) {
         ddOptions.push({
