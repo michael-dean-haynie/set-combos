@@ -16,6 +16,7 @@ export class ComboService {
     combos.push({});
     for (const optionSet of dataModel.optionSets) {
       if (!optionSet.enabled) { continue; }
+      if (optionSet.isAbstract) { continue; }
       for (let i = combos.length - 1; i >= 0; i--) {
         const exCombo = combos[i];
         const newCombos = [] as Combo[];

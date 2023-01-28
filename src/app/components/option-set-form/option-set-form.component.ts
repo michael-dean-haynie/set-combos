@@ -34,6 +34,7 @@ export class OptionSetFormComponent {
     return new FormGroup({
       name: new FormControl('set name ' + Math.random().toString().substr(2, 5)),
       enabled: new FormControl(true),
+      isAbstract: new FormControl(false),
       options: new FormArray([
         OptionFormComponent.createOptionFormGroup()
       ])

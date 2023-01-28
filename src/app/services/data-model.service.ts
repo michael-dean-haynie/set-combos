@@ -24,6 +24,7 @@ export class DataModelService {
     return {
       name: formValue.name,
       enabled: formValue.enabled,
+      isAbstract: formValue.isAbstract,
       options: formValue.options.map(this.createOption, this)
     };
   }
