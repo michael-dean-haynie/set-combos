@@ -33,6 +33,9 @@ export class ComboService {
   }
 
   private getExtendedSetOptions(set: OptionSet, allSets: OptionSet[]): Option[]{
+    if (!set.enabled) {
+      return [];
+    }
     if(!set.extensionOf){
       return set.options;
     }
@@ -41,7 +44,9 @@ export class ComboService {
       throw 'aye man something innt rite';
     }
     const inheritedOptions = this.getExtendedSetOptions(parent, allSets);
-    return [ ...parent.options, ...set.options ];
+
+    // combine, remove duplicate, return
+    return [ ...(new Set([ ...inheritedOptions, ...set.options ])) ];
   }
 
 }
