@@ -1,5 +1,9 @@
 import {FormArray, FormControl, FormGroup} from "@angular/forms";
 
+export type OptionSetsFG = FormGroup<{
+  optionSets: FormArray<OptionSetFG>
+}>;
+
 export type OptionSetFG = FormGroup<{
   name: FormControl<string|null>,
   enabled: FormControl<boolean|null>,

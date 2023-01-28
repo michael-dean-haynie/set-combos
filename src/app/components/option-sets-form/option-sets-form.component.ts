@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 import {FormArray, FormControl, FormGroup} from '@angular/forms';
-import {OptionSetFG} from "../../types/option-sets-form-types";
+import {OptionSetFG, OptionSetsFG} from "../../types/option-sets-form-types";
 import {OptionSetFormComponent} from "../option-set-form/option-set-form.component";
 
 
@@ -10,11 +10,9 @@ import {OptionSetFormComponent} from "../option-set-form/option-set-form.compone
   styleUrls: ['./option-sets-form.component.scss']
 })
 export class OptionSetsFormComponent {
-  formGroup = new FormGroup<{
-    optionSets: FormArray<OptionSetFG>
-  }>({
+  formGroup: OptionSetsFG = new FormGroup({
     optionSets: new FormArray<OptionSetFG>([])
-  })
+  });
 
   @Output() valueChanges = new EventEmitter();
 
