@@ -9,19 +9,26 @@
         <mat-icon>delete</mat-icon>
       </button>
       <mat-slide-toggle color="accent" formControlName="enabled"></mat-slide-toggle>
-      <div>
-        <mat-slide-toggle color="accent" formControlName="isAbstract">Abstract Set</mat-slide-toggle>
-      </div>
-      <div>
-        <mat-form-field appearance="fill">
-          <mat-label>This Set Extends</mat-label>
-          <mat-select formControlName="extensionOf">
-            <mat-option *ngFor="let extSet of extendableSets" [value]="extSet.formValue">
-              {{extSet.displayValue}}
+      <mat-slide-toggle color="accent" formControlName="isAbstract">Abstract Set</mat-slide-toggle>
+      <mat-form-field appearance="fill">
+        <mat-label>This Set Extends</mat-label>
+        <mat-select formControlName="extensionOf">
+          <mat-option *ngFor="let extSet of extendableSets" [value]="extSet.formValue">
+            {{extSet.displayValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Scope Limit</mat-label>
+        <mat-select formControlName="scopeLimiter">
+          <mat-option [value]="null">None</mat-option>
+          <mat-optgroup *ngFor="let group of scopeLimiterGroups" [label]="group.displayValue">
+            <mat-option *ngFor="let limiterOpt of group.ddOptions" [value]="limiterOpt.formValue">
+              {{limiterOpt.displayValue}}
             </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
+          </mat-optgroup>
+        </mat-select>
+      </mat-form-field>
     </mat-card-header>
     <mat-card-content>
       <ng-container formArrayName="options">

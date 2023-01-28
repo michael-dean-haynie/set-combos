@@ -27,12 +27,14 @@ export class DataModelService {
       enabled: formValue.enabled,
       isAbstract: formValue.isAbstract,
       extensionOf: formValue.extensionOf,
+      scopeLimiter: formValue.scopeLimiter,
       options: formValue.options.map(this.createOption, this)
     };
   }
 
   private createOption(formValue: any): Option {
     return {
+      id: formValue.id,
       name: formValue.name,
       enabled: formValue.enabled
     };

@@ -1,15 +1,15 @@
 <table *ngIf="dataModel?.optionSets">
   <thead>
     <tr>
-      <th *ngFor="let setName of setNames">
-        {{setName}}
+      <th *ngFor="let colName of colNames">
+        {{colName}}
       </th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let combo of combos">
-      <td *ngFor="let setName of setNames">
-        {{combo[setName]}}
+      <td *ngFor="let colName of colNames">
+        {{combo[getSetIdByName(colName)]?.optName}}
       </td>
     </tr>
   </tbody>

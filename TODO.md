@@ -1,4 +1,4 @@
 --------------------- add a bit of styling for set form
 --------------------- add abstract options sets
-- enable option sets to extend other option sets
-- enable combination scope limits
+--------------------- enable option sets to extend other option sets
+--------------------- enable combination scope limits

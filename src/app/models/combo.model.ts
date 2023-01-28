@@ -1,3 +1,9 @@
 export interface Combo {
-  [index: string]: string
-};
+  [index: string]: ComboItem;
+}
+
+export interface ComboItem {
+    setName: string;
+    optName: string;
+    optId: string;
+}

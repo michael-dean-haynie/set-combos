@@ -8,10 +8,12 @@ export interface OptionSet {
   enabled: boolean,
   isAbstract: boolean,
   extensionOf: string,
+  scopeLimiter: string,
   options: Option[]
 }
 
 export interface Option {
+  id: string,
   name: string,
   enabled: boolean
 }
