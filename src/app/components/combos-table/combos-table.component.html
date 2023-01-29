@@ -1,4 +1,4 @@
-<div *ngIf="data.length" class="mat-elevation-z8">
+<div *ngIf="data.data.length" class="mat-elevation-z8">
   <table mat-table [dataSource]="data">
 
     <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
@@ -10,10 +10,8 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 
-<!--  <mat-paginator [pageSizeOptions]="[5, 10, 20]"-->
-<!--                 showFirstLastButtons-->
-<!--                 aria-label="Select page of periodic elements">-->
-<!--  </mat-paginator>-->
+  <mat-paginator [pageSizeOptions]="[1,5,10,20,50,100,300,500]" showFirstLastButtons>
+  </mat-paginator>
 </div>
 
 
