@@ -16,6 +16,7 @@ export class OptionSetFormComponent implements OnInit {
   extendableSets: DDOption[] = [{ formValue: null, displayValue: 'None'}];
   scopeLimiterGroups: DDOptionGroup[] = [];
   removable = true;
+  showAdvanced = false;
 
   get options(): FormArray<OptionFG> {
     return this.optionSet.controls.options as FormArray<OptionFG>;

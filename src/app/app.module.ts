@@ -17,6 +17,8 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatSelectModule} from '@angular/material/select';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,9 @@ import {MatSelectModule} from '@angular/material/select';
     MatIconModule,
     MatSlideToggleModule,
     MatAutocompleteModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDividerModule,
+    MatButtonToggleModule
   ],
   providers: [],
   bootstrap: [AppComponent]

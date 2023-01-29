@@ -1,35 +1,57 @@
 <mat-card>
   <ng-container [formGroup]="optionSet">
     <mat-card-header>
-      <mat-form-field>
-        <mat-label>Set Name</mat-label>
-        <input matInput type="text" formControlName="name">
-      </mat-form-field>
-      <button mat-mini-fab color="warn" (click)="removeOptionSet()" [disabled]="!removable" type="button">
-        <mat-icon>delete</mat-icon>
-      </button>
-      <mat-slide-toggle color="accent" formControlName="enabled"></mat-slide-toggle>
-      <mat-slide-toggle color="accent" formControlName="isAbstract">Abstract Set</mat-slide-toggle>
-      <mat-form-field appearance="fill">
-        <mat-label>This Set Extends</mat-label>
-        <mat-select formControlName="extensionOf">
-          <mat-option *ngFor="let extSet of extendableSets" [value]="extSet.formValue">
-            {{extSet.displayValue}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field appearance="fill">
-        <mat-label>Scope Limit</mat-label>
-        <mat-select formControlName="scopeLimiter">
-          <mat-option [value]="null">None</mat-option>
-          <mat-optgroup *ngFor="let group of scopeLimiterGroups" [label]="group.displayValue">
-            <mat-option *ngFor="let limiterOpt of group.ddOptions" [value]="limiterOpt.formValue">
-              {{limiterOpt.displayValue}}
+      <div class="basic">
+        <mat-form-field>
+          <mat-label>Set Name</mat-label>
+          <input matInput type="text" formControlName="name">
+        </mat-form-field>
+        <button mat-icon-button color="basic" (click)="showAdvanced = !showAdvanced" type="button">
+<!--          {{showAdvanced ? 'Hide Advanced' : 'Show Advanced'}}-->
+          <mat-icon [fontIcon]="showAdvanced ? 'expand_less' : 'expand_more'"></mat-icon>
+        </button>
+      </div>
+      <div *ngIf="showAdvanced" class="advanced">
+        <div class="advanced-row">
+          <mat-button-toggle-group vertical="true" [formControl]="optionSet.controls.isAbstract">
+            <mat-button-toggle [value]="true">
+              <span>Abstract</span>
+              <mat-icon fontIcon="border_clear"></mat-icon>
+            </mat-button-toggle>
+            <mat-button-toggle [value]="false">
+              <span>Concrete</span>
+              <mat-icon fontIcon="border_outer"></mat-icon>
+            </mat-button-toggle>
+          </mat-button-toggle-group>
+          <mat-slide-toggle color="accent" formControlName="enabled">
+            {{optionSet.controls.enabled.value ? 'Enabled' : 'Disabled'}}
+          </mat-slide-toggle>
+          <button mat-mini-fab color="warn" (click)="removeOptionSet()" [disabled]="!removable" type="button">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+        <mat-form-field appearance="fill">
+          <mat-label>This Set Extends</mat-label>
+          <mat-select formControlName="extensionOf">
+            <mat-option *ngFor="let extSet of extendableSets" [value]="extSet.formValue">
+              {{extSet.displayValue}}
             </mat-option>
-          </mat-optgroup>
-        </mat-select>
-      </mat-form-field>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Scope Limit</mat-label>
+          <mat-select formControlName="scopeLimiter">
+            <mat-option [value]="null">None</mat-option>
+            <mat-optgroup *ngFor="let group of scopeLimiterGroups" [label]="group.displayValue">
+              <mat-option *ngFor="let limiterOpt of group.ddOptions" [value]="limiterOpt.formValue">
+                {{limiterOpt.displayValue}}
+              </mat-option>
+            </mat-optgroup>
+          </mat-select>
+        </mat-form-field>
+      </div>
     </mat-card-header>
+    <mat-divider></mat-divider>
     <mat-card-content>
       <ng-container formArrayName="options">
         <ng-container *ngFor="let option of options.controls; let i=index">

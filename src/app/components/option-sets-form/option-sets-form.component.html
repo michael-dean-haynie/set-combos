@@ -3,7 +3,7 @@
     <ng-container *ngFor="let optionSet of optionSets.controls; let i=index">
       <app-option-set-form [optionSet]="optionSet" (remove)="removeOptionSet(i)"></app-option-set-form>
     </ng-container>
-    <mat-card>
+    <mat-card appearance="outlined" class="new-set-card">
       <mat-card-content>
         <button mat-raised-button color="primary" (click)="addOptionSet()" type="button">New Set</button>
       </mat-card-content>

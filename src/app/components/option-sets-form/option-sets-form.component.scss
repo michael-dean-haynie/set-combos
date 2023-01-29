@@ -1,6 +1,13 @@
 .option-set-container {
   display: flex;
   flex-flow: wrap;
-  justify-content: center;
+  justify-content: start;
   gap: 1em;
+}
+
+.new-set-card {
+  background-color: rgba(193,193,193,.25);
+  border: 2px dashed rgba(193,193,193,.3);
+  display: flex;
+  justify-content: center;
 }

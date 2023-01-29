@@ -9,7 +9,7 @@
   <tbody>
     <tr *ngFor="let combo of combos">
       <td *ngFor="let colName of colNames">
-        {{combo[getSetIdByName(colName)]?.optName}}
+        {{combo[getSetIdByName(colName)].optName}}
       </td>
     </tr>
   </tbody>
